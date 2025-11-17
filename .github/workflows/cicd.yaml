@@ -32,26 +32,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: ./.github/actions/checkout-code
+        uses: XiaoZ0108/myWorkFlow/.github/actions/checkout-code@v1
 
       - name: Setup JDK
-        uses: ./.github/actions/setup-jdk
+        uses: XiaoZ0108/myWorkFlow/.github/actions/setup-jdk@v1
         with:
           java-version: ${{ inputs.java-version }}
 
       - name: Build & Test
-        uses: ./.github/actions/build-test
+        uses: XiaoZ0108/myWorkFlow/.github/actions/build-test@v1
         with:
           skip-tests: ${{ inputs.skip-tests }}
 
       - name: Docker Login
-        uses: ./.github/actions/docker-login
+        uses: XiaoZ0108/myWorkFlow/.github/actions/docker-login@v1
         with:
           acr-name: ${{ inputs.acr-name }}
           acr-username: ${{ secrets.ACR_USERNAME }}
           acr-password: ${{ secrets.ACR_PASSWORD }}
+
       - name: Docker Build & Push
-        uses: ./.github/actions/docker-build-push
+        uses: XiaoZ0108/myWorkFlow/.github/actions/docker-build-push@v1
         with:
           acr-name: ${{ inputs.acr-name }}
           project-name: ${{ inputs.project-name }}

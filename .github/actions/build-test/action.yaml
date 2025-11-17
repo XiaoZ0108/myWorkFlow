@@ -10,10 +10,10 @@ runs:
   steps:
     - name: Build with Maven (with tests)
       if: ${{ inputs.skip-tests == 'false' }}
-      run: ./mvnw clean package
+      run: mvn clean package
       shell: bash
 
     - name: Build with Maven (skip tests)
       if: ${{ inputs.skip-tests == 'true' }}
-      run: ./mvnw clean package -DskipTests
+      run: mvn clean package -DskipTests
       shell: bash

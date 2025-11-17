@@ -1,0 +1,14 @@
+name: Setup JDK
+description: "Set up Java JDK environment"
+inputs:
+  java-version:
+    description: "Java version to install"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Java
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: ${{ inputs.java-version }}

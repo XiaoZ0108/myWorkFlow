@@ -1,0 +1,27 @@
+name: Docker Build and Push
+description: "Build Docker image and push to ACR"
+inputs:
+  acr-name:
+    description: "Azure Container Registry name"
+    required: true
+  project-name:
+    description: "Project name for Docker image"
+    required: true
+  image-tag:
+    description: "Versioned Docker image tag (e.g., 1.0.5)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build Docker Image
+      run: |
+       # Build with both latest and versioned tags
+        docker build \
+          -t ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:latest \
+          -t ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:${{ inputs.image-tag }} .
+
+    - name: Push Docker Image
+      run: |
+        docker push ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:latest
+        docker push ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:${{ inputs.image-tag }}

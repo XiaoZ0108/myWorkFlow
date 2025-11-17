@@ -1,0 +1,52 @@
+name: CI/CD Template
+
+on:
+  workflow_call:
+    inputs:
+      project-name:
+        required: true
+        type: string
+      acr-name:
+        required: true
+        type: string
+      image-tag:
+        required: false
+        type: string
+        default: "1.0.${{ github.run_number }}"  # default versioned tag
+      java-version:
+        required: false
+        type: string
+        default: "17"
+      skip-tests:
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: ./.github/actions/checkout-code
+
+      - name: Setup JDK
+        uses: ./.github/actions/setup-jdk
+        with:
+          java-version: ${{ inputs.java-version }}
+
+      - name: Build & Test
+        uses: ./.github/actions/build-test
+        with:
+          skip-tests: ${{ inputs.skip-tests }}
+
+      - name: Docker Login
+        uses: ./.github/actions/docker-login
+        with:
+          acr-name: ${{ inputs.acr-name }}
+
+      - name: Docker Build & Push
+        uses: ./.github/actions/docker-build-push
+        with:
+          acr-name: ${{ inputs.acr-name }}
+          project-name: ${{ inputs.project-name }}
+          image-tag: ${{ inputs.image-tag }}

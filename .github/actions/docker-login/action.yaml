@@ -1,0 +1,15 @@
+name: Docker Login to ACR
+description: "Login to Azure Container Registry"
+inputs:
+  acr-name:
+    description: "Azure Container Registry name"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Login to ACR
+      uses: azure/docker-login@v3
+      with:
+        login-server: ${{ inputs.acr-name }}.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}

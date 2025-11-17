@@ -1,0 +1,16 @@
+name: Build and Test Spring Boot
+description: "Build project and run unit tests"
+inputs:
+  skip-tests:
+    description: "Skip tests or not"
+    required: false
+    default: false
+runs:
+  using: "composite"
+  steps:
+    - name: Build with Maven
+      run: ./mvnw clean package -DskipTests=${{ inputs.skip-tests }}
+
+    - name: Run Unit Tests
+      if: ${{ inputs.skip-tests == 'false' }}
+      run: ./mvnw test

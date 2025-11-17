@@ -20,8 +20,10 @@ runs:
         docker build \
           -t ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:latest \
           -t ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:${{ inputs.image-tag }} .
+      shell: bash
 
     - name: Push Docker Image
       run: |
         docker push ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:latest
         docker push ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:${{ inputs.image-tag }}
+      shell: bash

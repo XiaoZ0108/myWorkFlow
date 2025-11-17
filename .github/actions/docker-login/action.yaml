@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: Login to ACR
-      uses: azure/docker-login@v3
+      uses: azure/docker-login@v2
       with:
         login-server: ${{ inputs.acr-name }}.azurecr.io
         username: ${{ inputs.acr-username }}

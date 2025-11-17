@@ -16,11 +16,16 @@ on:
       java-version:
         required: false
         type: string
-        default: "17"
+        default: "21"
       skip-tests:
         required: false
         type: boolean
         default: false
+    secrets:
+      ACR_USERNAME:
+        required: true
+      ACR_PASSWORD:
+        required: true
 
 jobs:
   build-and-deploy:
@@ -43,7 +48,8 @@ jobs:
         uses: ./.github/actions/docker-login
         with:
           acr-name: ${{ inputs.acr-name }}
-
+          acr-username: ${{ secrets.ACR_USERNAME }}
+          acr-password: ${{ secrets.ACR_PASSWORD }}
       - name: Docker Build & Push
         uses: ./.github/actions/docker-build-push
         with:

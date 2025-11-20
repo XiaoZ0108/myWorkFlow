@@ -4,6 +4,12 @@ inputs:
   acr-name:
     description: "Azure Container Registry name"
     required: true
+  acr-username:
+    description: "Azure Container Registry username"
+    required: true
+  acr-password:
+    description: "Azure Container Registry password"
+    required: true
 runs:
   using: "composite"
   steps:

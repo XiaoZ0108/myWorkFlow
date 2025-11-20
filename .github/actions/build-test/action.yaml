@@ -5,15 +5,20 @@ inputs:
     description: "Skip tests or not"
     required: false
     default: 'false'
+  project-name:
+    description: "Project name"
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Build with Maven (with tests)
+      working-directory: ${{ inputs.project-name }}
       if: ${{ inputs.skip-tests == 'false' }}
       run: mvn clean package
       shell: bash
 
     - name: Build with Maven (skip tests)
+      working-directory: ${{ inputs.project-name }}
       if: ${{ inputs.skip-tests == 'true' }}
       run: mvn clean package -DskipTests
       shell: bash

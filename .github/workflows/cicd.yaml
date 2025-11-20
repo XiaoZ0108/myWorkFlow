@@ -26,6 +26,7 @@ on:
         required: true
       ACR_PASSWORD:
         required: true
+    
 
 jobs:
   build-and-deploy:
@@ -43,6 +44,7 @@ jobs:
         uses: XiaoZ0108/myWorkFlow/.github/actions/build-test@v1
         with:
           skip-tests: ${{ inputs.skip-tests }}
+          project-name: ${{ inputs.project-name }}
 
       - name: Docker Login
         uses: XiaoZ0108/myWorkFlow/.github/actions/docker-login@v1

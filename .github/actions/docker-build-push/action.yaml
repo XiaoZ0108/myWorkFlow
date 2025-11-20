@@ -26,11 +26,10 @@ runs:
       uses: docker/setup-buildx-action@v3
 
     - name: Build and Push Docker Image
-      working-directory: ${{ inputs.project-name }}
       uses: docker/build-push-action@v5
       with:
-        context: ${{ inputs.context-path }}
-        file: ${{ inputs.dockerfile-path }}
+        context: ${{ inputs.project-name }}
+        file: ${{ inputs.project-name }}/${{ inputs.dockerfile-path }}
         push: true
         tags: |
           ${{ inputs.acr-name }}.azurecr.io/${{ inputs.project-name }}:latest

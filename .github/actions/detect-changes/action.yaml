@@ -1,5 +1,6 @@
 name: Detect Changes
 description: "Detect changes in the repository"
+
 inputs:
   project-name:
     description: "The project folder to monitor for changes"
@@ -13,11 +14,10 @@ outputs:
 runs:
   using: "composite"
   steps:
-     # Detect changed files
-     - name: Detect changed files
-       id: detect
-       shell: bash
-       run: |
+    - name: Detect changed files
+      id: detect
+      shell: bash
+      run: |
         # Compare latest commit vs previous commit
         CHANGED=$(git diff --name-only HEAD~1 HEAD | xargs)
         echo "Changed files: $CHANGED"
@@ -31,4 +31,4 @@ runs:
         else
           echo "build=false" >> $GITHUB_OUTPUT
           echo "No changes in ${PROJECT}, skipping build image."
-    
+        fi

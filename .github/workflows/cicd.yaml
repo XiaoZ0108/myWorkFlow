@@ -35,6 +35,11 @@ jobs:
       - name: Checkout
         uses: XiaoZ0108/myWorkFlow/.github/actions/checkout-code@v1
 
+      - name: Detect Changes
+        uses: XiaoZ0108/myWorkFlow/.github/actions/detect-changes@v1
+        with:
+          project-name: ${{ inputs.project-name }}
+
       - name: Setup JDK
         uses: XiaoZ0108/myWorkFlow/.github/actions/setup-jdk@v1
         with:
@@ -47,6 +52,7 @@ jobs:
           project-name: ${{ inputs.project-name }}
 
       - name: Docker Login
+        if: steps.detect.outputs.build == 'true'
         uses: XiaoZ0108/myWorkFlow/.github/actions/docker-login@v1
         with:
           acr-name: ${{ inputs.acr-name }}
@@ -54,6 +60,7 @@ jobs:
           acr-password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Docker Build & Push
+        if: steps.detect.outputs.build == 'true'
         uses: XiaoZ0108/myWorkFlow/.github/actions/docker-build-push@v1
         with:
           acr-name: ${{ inputs.acr-name }}

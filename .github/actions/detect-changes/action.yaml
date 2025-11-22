@@ -1,0 +1,34 @@
+name: Detect Changes
+description: "Detect changes in the repository"
+inputs:
+  project-name:
+    description: "The project folder to monitor for changes"
+    required: true
+
+outputs:
+  build:
+    description: "Whether to build Docker image (true/false)"
+    value: ${{ steps.detect.outputs.build }}
+
+runs:
+  using: "composite"
+  steps:
+     # Detect changed files
+     - name: Detect changed files
+       id: detect
+       shell: bash
+       run: |
+        # Compare latest commit vs previous commit
+        CHANGED=$(git diff --name-only HEAD~1 HEAD | xargs)
+        echo "Changed files: $CHANGED"
+
+        PROJECT="${{ inputs['project-name'] }}"
+
+        # Check if any changed file is inside exact project folder
+        if echo "$CHANGED" | grep -q "^${PROJECT}/"; then
+          echo "build=true" >> $GITHUB_OUTPUT
+          echo "Detected changes in ${PROJECT}, will build image."
+        else
+          echo "build=false" >> $GITHUB_OUTPUT
+          echo "No changes in ${PROJECT}, skipping build image."
+    

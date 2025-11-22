@@ -26,9 +26,9 @@ runs:
 
         # Check if any changed file is inside exact project folder
         if echo "$CHANGED" | grep -q "^${PROJECT}/"; then
-          echo "build=true" >> $GITHUB_OUTPUT
+          echo "build=true" >> $GITHUB_OUTPUT"
           echo "Detected changes in ${PROJECT}, will build image."
         else
-          echo "build=false" >> $GITHUB_OUTPUT
+          echo "build=false" >> $GITHUB_OUTPUT"
           echo "No changes in ${PROJECT}, skipping build image."
     

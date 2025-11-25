@@ -1,5 +1,5 @@
 data "azurerm_resource_group" "rg" {
-  name     = "XResourse-JP-1"
+  name     = "${var.rg}"
 }
 
 # Create the AKS cluster

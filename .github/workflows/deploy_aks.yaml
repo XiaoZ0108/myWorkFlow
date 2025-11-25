@@ -6,19 +6,11 @@ on:
             cluster_name:
                 description: 'Name of the AKS Cluster'
                 required: true
-                default: 'my-aks-cluster'
+                default: 'my-aks'
             resource_group:
                 description: 'Resource Group for the AKS Cluster'
                 required: true
-                default: 'my-aks-resource-group'
-            location:
-                description: 'Azure Region for the AKS Cluster'
-                required: true
-                default: 'eastus'
-            node_count:
-                description: 'Number of nodes in the AKS Cluster'
-                required: true
-                default: '3'
+                default: 'XResourse-JP-1'
 
 jobs:
     deploy:

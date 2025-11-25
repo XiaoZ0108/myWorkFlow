@@ -40,14 +40,12 @@ jobs:
               run: terraform init
 
             - name: Terraform Plan
-              working-directory: ./terraform/aks
-              run: terraform plan \
+              run: terraform -chdir=./terraform/aks plan \
                 -var="prefix=${{ inputs.cluster_name }}" \
                 -var="rg=${{ inputs.resource_group }}"
 
             - name: Terraform Apply
-              working-directory: ./terraform/aks
-              run: terraform apply -auto-approve \
+              run: terraform -chdir=./terraform/aks apply -auto-approve \
                 -var="prefix=${{ inputs.cluster_name }}" \
                 -var="rg=${{ inputs.resource_group }}"
              

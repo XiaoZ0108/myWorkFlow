@@ -2,6 +2,12 @@ data "azurerm_resource_group" "rg" {
   name     = "${var.rg}"
 }
 
+data "azurerm_container_registry" "acr" {
+  name                = "${var.acr}"
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
+
+
 # Create the AKS cluster
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "${var.prefix}-cluster"
@@ -30,4 +36,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   sku_tier = "Free"
 
+}
+
+#Assign the AcrPull role to the AKS cluster's managed identity
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  scope                = data.azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+  
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
 }
